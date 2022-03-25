@@ -22,23 +22,23 @@ app=Flask (
     static_url_path="/"
 )
 app.secret_key="any string but secret"
-@app.route("/")
+@app.route("traning/")
 def index():
     return render_template("index.html")
 
-@app.route("/member")
+@app.route("traning/member")
 def member():
     if "nickname" in session:
         return render_template("member.html")
     else:
-        return redirect("/")
+        return redirect("traning/")
 
-@app.route("/error")
+@app.route("traning/error")
 def error():
     message=request.args.get("msg","發生錯誤,請聯繫客服")
     return render_template("error.html",message=message)
 
-@app.route("/signup",methods=["post"])
+@app.route("traning/signup",methods=["post"])
 def signup():
     nickname=request.form["nickname"]
     email=request.form["email"]
@@ -48,13 +48,13 @@ def signup():
         "email":email
     })
     if result != None:
-        return redirect("/error?msg=信箱已被註冊")
+        return redirect("traning/error?msg=信箱已被註冊")
     collection.insert_one({"nickname":nickname,"email":email,"password":password
     })
-    return redirect("/")
+    return redirect("traning/")
 
 
-@app.route("/signin",methods=["post"])
+@app.route("traning/signin",methods=["post"])
 def signin():
     email=request.form["email"]
     password=request.form["password"]
@@ -67,14 +67,14 @@ def signin():
          ]
      })
     if result==None:
-        return redirect("/error?msg=帳號或密碼錯誤")
+        return redirect("traning/error?msg=帳號或密碼錯誤")
     session["nickname"]=result["nickname"]
-    return redirect("/member")
+    return redirect("traning/member")
 
-@app.route("/signout")
+@app.route("traning/signout")
 def signout():
     del session["nickname"]
-    return redirect("/")
+    return redirect("traning/")
 
 
 
