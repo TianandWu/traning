@@ -22,7 +22,7 @@ app=Flask (
     static_url_path="/"
 )
 app.secret_key="any string but secret"
-@app.route("traning/")
+@app.route("/index")
 def index():
     return render_template("index.html")
 
