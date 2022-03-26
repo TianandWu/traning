@@ -26,19 +26,19 @@ app.secret_key="any string but secret"
 def index():
     return render_template("index.html")
 
-@app.route("traning/member")
+@app.route("/member")
 def member():
     if "nickname" in session:
         return render_template("member.html")
     else:
-        return redirect("traning/")
+        return redirect("/")
 
-@app.route("traning/error")
+@app.route("/error")
 def error():
     message=request.args.get("msg","發生錯誤,請聯繫客服")
     return render_template("error.html",message=message)
 
-@app.route("traning/signup",methods=["post"])
+@app.route("/signup",methods=["post"])
 def signup():
     nickname=request.form["nickname"]
     email=request.form["email"]
@@ -48,13 +48,13 @@ def signup():
         "email":email
     })
     if result != None:
-        return redirect("traning/error?msg=信箱已被註冊")
+        return redirect("/error?msg=信箱已被註冊")
     collection.insert_one({"nickname":nickname,"email":email,"password":password
     })
-    return redirect("traning/")
+    return redirect("/")
 
 
-@app.route("traning/signin",methods=["post"])
+@app.route("/signin",methods=["post"])
 def signin():
     email=request.form["email"]
     password=request.form["password"]
@@ -67,14 +67,14 @@ def signin():
          ]
      })
     if result==None:
-        return redirect("traning/error?msg=帳號或密碼錯誤")
+        return redirect("/error?msg=帳號或密碼錯誤")
     session["nickname"]=result["nickname"]
-    return redirect("traning/member")
+    return redirect("/member")
 
-@app.route("traning/signout")
+@app.route("/signout")
 def signout():
     del session["nickname"]
-    return redirect("traning/")
+    return redirect("/")
 
 
 
